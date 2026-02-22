@@ -1,0 +1,118 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Space+Grotesk:wght@400;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  --font-serif: "Playfair Display", ui-serif, Georgia, serif;
+  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+}
+
+:root {
+  /* Default Gothic Theme */
+  --bg-color: #050505;
+  --text-color: #e5e5e5;
+  --text-muted: #888888;
+  --border-color: #222222;
+  --font-heading: var(--font-serif);
+  --font-body: var(--font-sans);
+  
+  /* Default Accent (Crimson) */
+  --accent-color: #8b0000;
+  --accent-hover: #a50000;
+}
+
+[data-theme="cyberpunk"] {
+  --bg-color: #0f0f1a;
+  --text-color: #00ffcc;
+  --text-muted: #0088aa;
+  --border-color: #003344;
+  --font-heading: var(--font-display);
+  --font-body: var(--font-mono);
+}
+
+[data-theme="minimal"] {
+  --bg-color: #fafafa;
+  --text-color: #111111;
+  --text-muted: #666666;
+  --border-color: #e5e5e5;
+  --font-heading: var(--font-sans);
+  --font-body: var(--font-sans);
+}
+
+[data-accent="crimson"] {
+  --accent-color: #8b0000;
+  --accent-hover: #a50000;
+}
+
+[data-accent="gold"] {
+  --accent-color: #d4af37;
+  --accent-hover: #f1c40f;
+}
+
+[data-accent="neon-blue"] {
+  --accent-color: #00f3ff;
+  --accent-hover: #00c3cc;
+}
+
+[data-accent="neon-pink"] {
+  --accent-color: #ff00ff;
+  --accent-hover: #cc00cc;
+}
+
+[data-accent="monochrome"] {
+  --accent-color: #333333;
+  --accent-hover: #000000;
+}
+
+[data-theme="minimal"][data-accent="monochrome"] {
+  --accent-color: #111111;
+  --accent-hover: #333333;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  font-family: var(--font-body);
+  transition: background-color 0.5s ease, color 0.5s ease;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+}
+
+.text-accent {
+  color: var(--accent-color);
+}
+
+.bg-accent {
+  background-color: var(--accent-color);
+}
+
+.border-accent {
+  border-color: var(--accent-color);
+}
+
+.hover-text-accent:hover {
+  color: var(--accent-hover);
+}
+
+.hover-bg-accent:hover {
+  background-color: var(--accent-hover);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-color);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-color);
+}
