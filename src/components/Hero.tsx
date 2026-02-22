@@ -1,21 +1,26 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowDown } from 'lucide-react';
-import { HeroScene } from './HeroScene';
 import { useTheme } from '../context/ThemeContext';
+import { useInView } from 'react-intersection-observer';
 
 export const Hero: React.FC = () => {
-  const { isMenuOpen } = useTheme();
+  const { isMenuOpen, setActiveSection } = useTheme();
+  const { ref, inView } = useInView({ threshold: 0.5 });
+
+  useEffect(() => {
+    if (inView) {
+      setActiveSection('hero');
+    }
+  }, [inView, setActiveSection]);
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden px-6">
+    <section ref={ref} id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden px-6">
       <motion.div 
         className="absolute inset-0 z-0"
         animate={{ filter: isMenuOpen ? 'blur(10px)' : 'blur(0px)' }}
         transition={{ duration: 0.3 }}
       >
-        <HeroScene />
-        
         <div className="absolute inset-0 z-0 opacity-20 pointer-events-none">
           {/* A subtle background pattern or gradient could go here */}
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,var(--accent-color)_0%,transparent_50%)] opacity-30 mix-blend-screen" />
@@ -29,7 +34,7 @@ export const Hero: React.FC = () => {
           transition={{ duration: 1, ease: "easeOut" }}
         >
           <h1 className="text-5xl md:text-7xl lg:text-9xl font-bold mb-6 tracking-tighter uppercase mix-blend-difference text-white">
-            Maxime <span className="text-accent">Guillon</span>
+            SHRII <span className="text-accent">GANESH</span>
           </h1>
         </motion.div>
 

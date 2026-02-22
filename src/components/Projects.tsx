@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { ExternalLink, Github } from 'lucide-react';
+import { useInView } from 'react-intersection-observer';
+import { useTheme } from '../context/ThemeContext';
 
 const projects = [
   {
@@ -27,15 +29,24 @@ const projects = [
 ];
 
 export const Projects: React.FC = () => {
+  const { setActiveSection } = useTheme();
+  const { ref, inView } = useInView({ threshold: 0.2 });
+
+  useEffect(() => {
+    if (inView) {
+      setActiveSection('projects');
+    }
+  }, [inView, setActiveSection]);
+
   return (
-    <section id="projects" className="py-24 px-6 md:px-12 lg:px-24 border-t" style={{ borderColor: 'var(--border-color)' }}>
+    <section ref={ref} id="projects" className="py-24 px-6 md:px-12 lg:px-24 border-t relative z-10" style={{ borderColor: 'var(--border-color)' }}>
       <div className="max-w-7xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="mb-16 md:mb-24"
+          className="mb-16 md:mb-24 backdrop-blur-sm bg-black/30 p-8 rounded-2xl inline-block"
         >
           <h2 className="text-4xl md:text-6xl font-bold uppercase tracking-tight">
             Selected <span className="text-accent">Works</span>
@@ -50,7 +61,7 @@ export const Projects: React.FC = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.8 }}
-              className={`flex flex-col ${index % 2 !== 0 ? 'lg:flex-row-reverse' : 'lg:flex-row'} gap-8 lg:gap-16 items-center`}
+              className={`flex flex-col ${index % 2 !== 0 ? 'lg:flex-row-reverse' : 'lg:flex-row'} gap-8 lg:gap-16 items-center backdrop-blur-sm bg-black/30 p-8 rounded-2xl`}
             >
               <div className="w-full lg:w-3/5 relative group overflow-hidden rounded-xl">
                 <div className="absolute inset-0 bg-accent opacity-0 group-hover:opacity-20 transition-opacity duration-500 z-10 mix-blend-overlay" />

@@ -11,13 +11,15 @@ import { Hero } from './components/Hero';
 import { About } from './components/About';
 import { Projects } from './components/Projects';
 import { Contact } from './components/Contact';
+import { TourScene } from './components/TourScene';
 
 export default function App() {
   return (
     <ThemeProvider>
-      <div className="min-h-screen selection:bg-accent selection:text-white">
+      <div className="min-h-screen selection:bg-accent selection:text-white relative">
+        <TourScene />
         <Navbar />
-        <main>
+        <main className="relative z-10">
           <Hero />
           <About />
           <Projects />
@@ -25,8 +27,8 @@ export default function App() {
         </main>
         <ThemeCustomizer />
         
-        <footer className="py-8 text-center text-sm border-t" style={{ borderColor: 'var(--border-color)', color: 'var(--text-muted)' }}>
-          <p>&copy; {new Date().getFullYear()} Maxime Guillon. All rights reserved.</p>
+        <footer className="py-8 text-center text-sm border-t relative z-10 backdrop-blur-sm bg-black/30" style={{ borderColor: 'var(--border-color)', color: 'var(--text-muted)' }}>
+          <p>&copy; {new Date().getFullYear()} SHRII GANESH. All rights reserved.</p>
         </footer>
       </div>
     </ThemeProvider>

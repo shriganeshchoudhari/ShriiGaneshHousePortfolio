@@ -1,9 +1,20 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { useInView } from 'react-intersection-observer';
+import { useTheme } from '../context/ThemeContext';
 
 export const About: React.FC = () => {
+  const { setActiveSection } = useTheme();
+  const { ref, inView } = useInView({ threshold: 0.5 });
+
+  useEffect(() => {
+    if (inView) {
+      setActiveSection('about');
+    }
+  }, [inView, setActiveSection]);
+
   return (
-    <section id="about" className="py-24 px-6 md:px-12 lg:px-24 border-t" style={{ borderColor: 'var(--border-color)' }}>
+    <section ref={ref} id="about" className="py-24 px-6 md:px-12 lg:px-24 border-t relative z-10" style={{ borderColor: 'var(--border-color)' }}>
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <motion.div
@@ -11,6 +22,7 @@ export const About: React.FC = () => {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: "-100px" }}
             transition={{ duration: 0.8 }}
+            className="backdrop-blur-sm bg-black/30 p-8 rounded-2xl"
           >
             <h2 className="text-4xl md:text-6xl font-bold mb-8 uppercase tracking-tight">
               About <span className="text-accent">Me</span>
@@ -58,7 +70,7 @@ export const About: React.FC = () => {
             <div className="absolute inset-0 bg-accent opacity-20 group-hover:opacity-0 transition-opacity duration-500 z-10 mix-blend-overlay" />
             <img 
               src="https://picsum.photos/seed/maxime/800/1000?grayscale" 
-              alt="Maxime Guillon" 
+              alt="SHRII GANESH" 
               className="object-cover w-full h-full filter grayscale group-hover:grayscale-0 transition-all duration-700 scale-105 group-hover:scale-100"
               referrerPolicy="no-referrer"
             />

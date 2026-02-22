@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 
 export type Theme = 'gothic' | 'cyberpunk' | 'minimal';
 export type AccentColor = 'crimson' | 'gold' | 'neon-blue' | 'neon-pink' | 'monochrome';
+export type Section = 'hero' | 'about' | 'projects' | 'contact';
 
 interface ThemeContextType {
   theme: Theme;
@@ -10,6 +11,8 @@ interface ThemeContextType {
   setAccentColor: (color: AccentColor) => void;
   isMenuOpen: boolean;
   setIsMenuOpen: (isOpen: boolean) => void;
+  activeSection: Section;
+  setActiveSection: (section: Section) => void;
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
@@ -18,6 +21,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const [theme, setTheme] = useState<Theme>('gothic');
   const [accentColor, setAccentColor] = useState<AccentColor>('crimson');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState<Section>('hero');
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
@@ -25,7 +29,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   }, [theme, accentColor]);
 
   return (
-    <ThemeContext.Provider value={{ theme, setTheme, accentColor, setAccentColor, isMenuOpen, setIsMenuOpen }}>
+    <ThemeContext.Provider value={{ theme, setTheme, accentColor, setAccentColor, isMenuOpen, setIsMenuOpen, activeSection, setActiveSection }}>
       {children}
     </ThemeContext.Provider>
   );
