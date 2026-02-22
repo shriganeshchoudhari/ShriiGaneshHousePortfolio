@@ -61,7 +61,7 @@ export const Projects: React.FC = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-100px" }}
               transition={{ duration: 0.8 }}
-              className={`flex flex-col ${index % 2 !== 0 ? 'lg:flex-row-reverse' : 'lg:flex-row'} gap-8 lg:gap-16 items-center backdrop-blur-sm bg-black/30 p-8 rounded-2xl`}
+              className={`flex flex-col ${index % 2 !== 0 ? 'lg:flex-row-reverse' : 'lg:flex-row'} gap-8 lg:gap-16 items-center backdrop-blur-sm bg-black/30 p-8 rounded-2xl transition-all duration-500 hover:scale-[1.02] hover:shadow-2xl hover:shadow-accent/20`}
             >
               <div className="w-full lg:w-3/5 relative group overflow-hidden rounded-xl">
                 <div className="absolute inset-0 bg-accent opacity-0 group-hover:opacity-20 transition-opacity duration-500 z-10 mix-blend-overlay" />

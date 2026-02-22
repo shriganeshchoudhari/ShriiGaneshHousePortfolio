@@ -36,6 +36,20 @@ const CameraController = ({ activeSection }: { activeSection: Section }) => {
   return null;
 };
 
+const AnimatedAboutText = ({ color }: { color: string }) => {
+  const textRef = useRef<any>(null);
+  useFrame((state, delta) => {
+    if (textRef.current) {
+      textRef.current.rotation.y += delta * 0.2;
+    }
+  });
+  return (
+    <Text ref={textRef} position={[0, 2, -1.8]} fontSize={0.5} color={color} anchorX="center" anchorY="middle">
+      ABOUT ME
+    </Text>
+  );
+};
+
 const AbstractHouse = () => {
   const { accentColor, theme } = useTheme();
   
@@ -79,9 +93,7 @@ const AbstractHouse = () => {
         <Box args={[4, 3, 0.2]} position={[0, 1.5, -2]} castShadow receiveShadow>
           <meshStandardMaterial color={wallColor} />
         </Box>
-        <Text position={[0, 2, -1.8]} fontSize={0.5} color={currentColor} anchorX="center" anchorY="middle">
-          ABOUT ME
-        </Text>
+        <AnimatedAboutText color={currentColor} />
         <Box args={[2, 1, 1]} position={[0, 0.5, 0]} castShadow receiveShadow>
           <meshStandardMaterial color={currentColor} roughness={0.5} metalness={0.5} />
         </Box>
@@ -121,8 +133,35 @@ const AbstractHouse = () => {
 };
 
 export const TourScene: React.FC = () => {
-  const { theme, activeSection } = useTheme();
+  const { theme, activeSection, accentColor } = useTheme();
   const isMinimal = theme === 'minimal';
+
+  useEffect(() => {
+    const audio = new Audio('https://cdn.pixabay.com/download/audio/2022/01/18/audio_d0a13f69d2.mp3?filename=ambient-piano-amp-strings-10711.mp3');
+    audio.loop = true;
+    audio.volume = 0.2;
+    
+    const playAudio = () => {
+      audio.play().catch(e => console.log("Audio autoplay blocked", e));
+      document.removeEventListener('click', playAudio);
+    };
+    
+    document.addEventListener('click', playAudio);
+    
+    return () => {
+      audio.pause();
+      document.removeEventListener('click', playAudio);
+    };
+  }, []);
+
+  const colorMap: Record<string, string> = {
+    'crimson': '#8b0000',
+    'gold': '#d4af37',
+    'neon-blue': '#00f3ff',
+    'neon-pink': '#ff00ff',
+    'monochrome': theme === 'minimal' ? '#111111' : '#888888',
+  };
+  const currentColor = colorMap[accentColor] || '#8b0000';
 
   return (
     <div className="fixed inset-0 z-0 pointer-events-none">
@@ -130,15 +169,30 @@ export const TourScene: React.FC = () => {
         <color attach="background" args={[isMinimal ? '#fafafa' : '#050505']} />
         <fog attach="fog" args={[isMinimal ? '#fafafa' : '#050505', 10, 40]} />
         
-        <ambientLight intensity={isMinimal ? 0.8 : 0.3} />
+        <ambientLight intensity={isMinimal ? 0.4 : 0.1} />
         <directionalLight 
-          position={[10, 10, 5]} 
-          intensity={1.5} 
+          position={[15, 20, 10]} 
+          intensity={isMinimal ? 2 : 3} 
           castShadow 
-          shadow-mapSize={[1024, 1024]}
+          shadow-mapSize={[2048, 2048]}
+          shadow-bias={-0.0001}
         />
-        <directionalLight position={[-10, 10, -5]} intensity={0.5} />
+        <directionalLight position={[-15, 10, -10]} intensity={isMinimal ? 1 : 0.5} color={currentColor} />
+        <pointLight position={[0, 5, 0]} intensity={isMinimal ? 1 : 2} color={currentColor} distance={20} />
         
+        <Float speed={1} rotationIntensity={0.2} floatIntensity={0.5}>
+          <Sphere args={[15, 64, 64]} position={[0, 5, -30]}>
+            <MeshDistortMaterial
+              color={currentColor}
+              transparent
+              opacity={0.15}
+              distort={0.3}
+              speed={1}
+              roughness={0.5}
+            />
+          </Sphere>
+        </Float>
+
         <AbstractHouse />
         
         {!isMinimal && (
