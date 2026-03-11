@@ -7,6 +7,7 @@
 This contains everything you need to run your app locally.
 
 View your app in AI Studio: https://ai.studio/apps/fa77c469-5fc4-45de-a184-e138ee69feea
+https://shriganeshchoudhari.github.io/ShriiGaneshHousePortfolio/
 
 ## Run Locally
 
